@@ -8,7 +8,10 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.stream.Collectors;
 
@@ -26,8 +29,32 @@ public class HelloController {
 //        test = request.getReader().lines().collect(Collectors.joining(System.lineSeparator()));
 //        System.out.println(test);
 
-        test = request.getInputStream().toString();
-        System.out.println(test);
+        InputStream is = request.getInputStream();
+        BufferedReader reader = new BufferedReader(new InputStreamReader(is));
+
+        StringBuilder sb = new StringBuilder();
+        String line = null;
+        try
+        {
+            while ((line = reader.readLine()) != null)
+            {
+                sb.append(line + "\n");
+            }
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+        finally {
+            try {
+                is.close();
+            }
+            catch (IOException e)
+            {
+                e.printStackTrace();
+            }
+        }
+        System.out.println(sb.toString());
 
     }
 }
