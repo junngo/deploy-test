@@ -56,14 +56,27 @@ public class HelloController {
 //            }
 //        }
 //        System.out.println(sb.toString());
-        MessageFactory messageFactory = MessageFactory.newInstance();
+//        MessageFactory messageFactory = MessageFactory.newInstance();
         InputStream inStream = request.getInputStream();
-        SOAPMessage soapMessage = messageFactory.createMessage(new MimeHeaders(), inStream);
-//        PrintWriter writer = response.getWriter();
-        ByteArrayOutputStream out = new ByteArrayOutputStream();
-        soapMessage.writeTo(out);
-        String strMsg = new String(out.toByteArray());
-        System.out.println(strMsg);
+        StringBuilder sb = new StringBuilder();
+        BufferedReader br = new BufferedReader(new InputStreamReader(inStream));
+        String read;
+
+        while ((read=br.readLine()) != null) {
+            //System.out.println(read);
+            sb.append(read);
+        }
+
+        br.close();
+        System.out.println(sb.toString());
+//        return sb.toString();
+
+//        SOAPMessage soapMessage = messageFactory.createMessage(new MimeHeaders(), inStream);
+////        PrintWriter writer = response.getWriter();
+//        ByteArrayOutputStream out = new ByteArrayOutputStream();
+//        soapMessage.writeTo(out);
+//        String strMsg = new String(out.toByteArray());
+//        System.out.println(strMsg);
         System.out.println("========================");
 //        writer.println(strMsg);
 
