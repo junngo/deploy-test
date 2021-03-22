@@ -24,7 +24,7 @@ public class HelloController {
     }
 
     @PostMapping("/callback")
-    public void callback(HttpServletRequest request) throws IOException {
+    public String callback(HttpServletRequest request) throws IOException {
         String test;
 //        test = request.getReader().lines().collect(Collectors.joining(System.lineSeparator()));
 //        System.out.println(test);
@@ -55,6 +55,8 @@ public class HelloController {
             }
         }
         System.out.println(sb.toString());
+
+        return "hello";
 
     }
 }
