@@ -8,12 +8,16 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
+import javax.servlet.http.HttpServletResponse;
 import javax.xml.soap.MessageFactory;
 import javax.xml.soap.MimeHeaders;
 import javax.xml.soap.SOAPException;
 import javax.xml.soap.SOAPMessage;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
+import java.util.Collections;
+import java.util.Enumeration;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @RestController
@@ -25,8 +29,22 @@ public class HelloController {
     }
 
     @PostMapping("/callback")
-    public String callback(HttpServletRequest request) throws IOException, SOAPException {
-        String test;
+    public String callback(HttpServletRequest request, HttpServletResponse response) throws IOException {
+//        String test;
+//        Enumeration<String> headerNames = request.getHeaderNames();
+//        while (headerNames.hasMoreElements()) {
+//            System.out.println("Header  " + headerNames.nextElement());
+//        }
+
+        Enumeration headerNames = request.getHeaderNames();
+        while (headerNames.hasMoreElements()) {
+            String name = (String) headerNames.nextElement();
+            String value = request.getHeader(name);
+            System.out.println(name + " : " + value + "<br>");
+        }
+
+
+
 //        test = request.getReader().lines().collect(Collectors.joining(System.lineSeparator()));
 //        System.out.println(test);
 
