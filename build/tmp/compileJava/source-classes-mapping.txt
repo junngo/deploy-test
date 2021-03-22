@@ -1,6 +1,9 @@
 org/junngo/spring/web/HelloController.java
  org.junngo.spring.web.HelloController
-org/junngo/spring/web/MyHttpServletRequestWrapper.java
- org.junngo.spring.web.MyHttpServletRequestWrapper
+org/junngo/spring/web/MultiReadableRequestBodyFilter.java
+ org.junngo.spring.web.MultiReadableRequestBodyFilter
+org/junngo/spring/web/MultiReadableRequestBodyHttpServletRequest.java
+ org.junngo.spring.web.MultiReadableRequestBodyHttpServletRequest
+ org.junngo.spring.web.MultiReadableRequestBodyHttpServletRequest$CachedServletInputStream
 org/junngo/spring/Application.java
  org.junngo.spring.Application
