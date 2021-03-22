@@ -15,7 +15,9 @@ import javax.xml.soap.SOAPException;
 import javax.xml.soap.SOAPMessage;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
+import java.util.Collections;
 import java.util.Enumeration;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @RestController
@@ -28,67 +30,37 @@ public class HelloController {
 
     @PostMapping("/callback")
     public String callback(HttpServletRequest request, HttpServletResponse response) throws IOException, SOAPException {
-        String test;
-//        test = request.getReader().lines().collect(Collectors.joining(System.lineSeparator()));
-//        System.out.println(test);
+        StringBuffer sb = new StringBuffer();
+        BufferedReader bufferedReader = null;
+        String content = "";
 
-//        InputStream is = request.getInputStream();
-//        BufferedReader reader = new BufferedReader(new InputStreamReader(is));
-//
-//        StringBuilder sb = new StringBuilder();
-//        String line = null;
-//        try
-//        {
-//            while ((line = reader.readLine()) != null)
-//            {
-//                sb.append(line + "\n");
-//            }
-//        }
-//        catch (IOException e)
-//        {
-//            e.printStackTrace();
-//        }
-//        finally {
-//            try {
-//                is.close();
-//            }
-//            catch (IOException e)
-//            {
-//                e.printStackTrace();
-//            }
-//        }
-//        System.out.println(sb.toString());
-//        MessageFactory messageFactory = MessageFactory.newInstance();
-        Enumeration<String> headerNames = request.getHeaderNames();
+        try {
+            //InputStream inputStream = request.getInputStream();
+            //inputStream.available();
+            //if (inputStream != null) {
+            bufferedReader =  request.getReader() ; //new BufferedReader(new InputStreamReader(inputStream));
+            char[] charBuffer = new char[128];
+            int bytesRead;
+            while ( (bytesRead = bufferedReader.read(charBuffer)) != -1 ) {
+                sb.append(charBuffer, 0, bytesRead);
+            }
+            //} else {
+            //        sb.append("");
+            //}
 
-        if (headerNames != null) {
-            while (headerNames.hasMoreElements()) {
-                System.out.println("Header: " + request.getHeader(headerNames.nextElement()));
+        } catch (IOException ex) {
+            throw ex;
+        } finally {
+            if (bufferedReader != null) {
+                try {
+                    bufferedReader.close();
+                } catch (IOException ex) {
+                    throw ex;
+                }
             }
         }
 
-        InputStream inStream = request.getInputStream();
-        StringBuilder sb = new StringBuilder();
-        BufferedReader br = new BufferedReader(new InputStreamReader(inStream));
-        String read;
-
-        while ((read=br.readLine()) != null) {
-            //System.out.println(read);
-            sb.append(read);
-        }
-
-        br.close();
         System.out.println(sb.toString());
-//        return sb.toString();
-
-//        SOAPMessage soapMessage = messageFactory.createMessage(new MimeHeaders(), inStream);
-////        PrintWriter writer = response.getWriter();
-//        ByteArrayOutputStream out = new ByteArrayOutputStream();
-//        soapMessage.writeTo(out);
-//        String strMsg = new String(out.toByteArray());
-//        System.out.println(strMsg);
-        System.out.println("========================");
-//        writer.println(strMsg);
 
         return "hello";
 
